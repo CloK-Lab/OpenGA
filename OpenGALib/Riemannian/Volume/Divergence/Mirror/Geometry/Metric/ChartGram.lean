@@ -1,4 +1,4 @@
-import OpenGALib.Riemannian.Metric.RiemannianMetric
+import OpenGALib.Riemannian.Volume.Divergence.Mirror.Geometry.Metric.Basic
 import Mathlib.Geometry.Manifold.VectorBundle.Riemannian
 import Mathlib.Geometry.Manifold.VectorBundle.Tangent
 import Mathlib.Geometry.Manifold.VectorBundle.Hom
@@ -55,7 +55,6 @@ forward to `M`.
 noncomputable section
 
 open Bundle Manifold Set MeasureTheory
-open Riemannian
 open scoped Manifold Topology ContDiff Matrix
 
 namespace DifferentialGeometry
@@ -72,6 +71,7 @@ private local instance : BorelSpace E := ⟨rfl⟩
 private local instance : MeasurableSpace M := borel M
 private local instance : BorelSpace M := ⟨rfl⟩
 
+export DifferentialGeometry (SmoothRiemannianMetric)
 
 /-- The fixed model-space basis used throughout the chart-local construction. It is the
 image of the standard `EuclideanSpace.basisFun` under the inverse of the canonical
@@ -214,7 +214,7 @@ lemma chartBasisFamily_linearIndependent (x₀ : M) {x : M}
   exact h
 
 /-- The Gram matrix of the chart-basis family at `x` under `g.inner x`. -/
-def chartGramMatrix (g : RiemannianMetric I M) (x₀ : M) (x : M) :
+def chartGramMatrix (g : SmoothRiemannianMetric I M) (x₀ : M) (x : M) :
     Matrix (Fin (Module.finrank ℝ E)) (Fin (Module.finrank ℝ E)) ℝ :=
   Matrix.of fun i j =>
     g.inner x
@@ -222,7 +222,7 @@ def chartGramMatrix (g : RiemannianMetric I M) (x₀ : M) (x : M) :
       (chartBasisVecFiber (I := I) x₀ j x)
 
 @[simp] lemma chartGramMatrix_apply
-    (g : RiemannianMetric I M) (x₀ : M) (x : M)
+    (g : SmoothRiemannianMetric I M) (x₀ : M) (x : M)
     (i j : Fin (Module.finrank ℝ E)) :
     chartGramMatrix g x₀ x i j =
       g.inner x
@@ -231,7 +231,7 @@ def chartGramMatrix (g : RiemannianMetric I M) (x₀ : M) (x : M) :
 
 /-- The Gram matrix is Hermitian (symmetric for real entries). -/
 lemma chartGramMatrix_isHermitian
-    (g : RiemannianMetric I M) (x₀ : M) (x : M) :
+    (g : SmoothRiemannianMetric I M) (x₀ : M) (x : M) :
     (chartGramMatrix g x₀ x).IsHermitian := by
   refine Matrix.IsHermitian.ext ?_
   intro i j
@@ -245,7 +245,7 @@ lemma chartGramMatrix_isHermitian
 combinations. This is the tangent-space version of the standard identity used in
 `Matrix.star_dotProduct_gram_mulVec`. -/
 lemma chartGramMatrix_dotProduct_mulVec
-    (g : RiemannianMetric I M) (x₀ : M) (x : M)
+    (g : SmoothRiemannianMetric I M) (x₀ : M) (x : M)
     (c : Fin (Module.finrank ℝ E) → ℝ) :
     star c ⬝ᵥ (chartGramMatrix g x₀ x) *ᵥ c =
       g.inner x
@@ -297,7 +297,7 @@ lemma chartGramMatrix_dotProduct_mulVec
 
 /-- The Gram matrix of the chart-basis family is positive-definite on the base set. -/
 lemma chartGramMatrix_posDef
-    (g : RiemannianMetric I M) (x₀ : M) {x : M}
+    (g : SmoothRiemannianMetric I M) (x₀ : M) {x : M}
     (hx : x ∈ (trivializationAt E (TangentSpace I) x₀).baseSet) :
     (chartGramMatrix g x₀ x).PosDef := by
   refine Matrix.PosDef.of_dotProduct_mulVec_pos
@@ -317,7 +317,7 @@ lemma chartGramMatrix_posDef
 
 /-- The determinant of the Gram matrix is positive on the base set. -/
 lemma chartGramMatrix_det_pos
-    (g : RiemannianMetric I M) (x₀ : M) {x : M}
+    (g : SmoothRiemannianMetric I M) (x₀ : M) {x : M}
     (hx : x ∈ (trivializationAt E (TangentSpace I) x₀).baseSet) :
     0 < (chartGramMatrix g x₀ x).det :=
   (chartGramMatrix_posDef (I := I) g x₀ hx).det_pos
@@ -326,7 +326,7 @@ lemma chartGramMatrix_det_pos
 product evaluated at two smooth sections is smooth, via `ContMDiffOn.clm_bundle_apply₂`
 applied to `g.contMDiff` and two copies of `chartBasisVec`. -/
 lemma chartGramMatrix_entry_contMDiffOn
-    (g : RiemannianMetric I M) (x₀ : M)
+    (g : SmoothRiemannianMetric I M) (x₀ : M)
     (i j : Fin (Module.finrank ℝ E)) :
     ContMDiffOn I 𝓘(ℝ) ∞
       (fun x => chartGramMatrix g x₀ x i j)
@@ -357,7 +357,7 @@ lemma chartGramMatrix_entry_contMDiffOn
 /-- Each entry of the Gram matrix viewed as a function of `x`, but indexed by a pair
 `(i, j)`, is smooth on the base set. -/
 private lemma chartGramMatrix_pair_entry_contMDiffOn
-    (g : RiemannianMetric I M) (x₀ : M)
+    (g : SmoothRiemannianMetric I M) (x₀ : M)
     (ij : Fin (Module.finrank ℝ E) × Fin (Module.finrank ℝ E)) :
     ContMDiffOn I 𝓘(ℝ) ∞
       (fun x => chartGramMatrix g x₀ x ij.1 ij.2)
@@ -368,7 +368,7 @@ private lemma chartGramMatrix_pair_entry_contMDiffOn
 `Matrix.det` into a finite sum over permutations of finite products of entries, then use
 the smooth-manifold finite-sum / finite-product lemmas for scalar-valued functions. -/
 lemma chartGramMatrix_det_contMDiffOn
-    (g : RiemannianMetric I M) (x₀ : M) :
+    (g : SmoothRiemannianMetric I M) (x₀ : M) :
     ContMDiffOn I 𝓘(ℝ) ∞
       (fun x => (chartGramMatrix g x₀ x).det)
       (trivializationAt E (TangentSpace I) x₀).baseSet := by
