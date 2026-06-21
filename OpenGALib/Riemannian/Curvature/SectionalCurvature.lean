@@ -1,4 +1,4 @@
-import OpenGALib.Riemannian.Curvature.RiemannCurvature
+import OpenGALib.Riemannian.Curvature.RiemannSymmetries
 import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-! # Sectional curvature -/

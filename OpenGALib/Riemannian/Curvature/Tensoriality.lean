@@ -1,4 +1,4 @@
-import OpenGALib.Riemannian.Curvature.RiemannCurvature
+import OpenGALib.Riemannian.Curvature.RiemannSymmetries
 import OpenGALib.Riemannian.Operators.Gradient
 import OpenGALib.Riemannian.Util.Metric.MetricInnerSmoothness
 import Mathlib.Geometry.Manifold.VectorBundle.LocalFrame
