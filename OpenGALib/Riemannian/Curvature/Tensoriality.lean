@@ -5,6 +5,7 @@ import Mathlib.Geometry.Manifold.VectorBundle.LocalFrame
 import Mathlib.Geometry.Manifold.BumpFunction
 import Mathlib.LinearAlgebra.Dimension.Free
 import Mathlib.LinearAlgebra.Basis.Defs
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Tensoriality of the Riemann curvature tensor — full 3-slot
@@ -31,12 +32,9 @@ open scoped ContDiff Manifold Bundle Riemannian Topology
 namespace Riemannian
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [InnerProductSpace ℝ E] [CompleteSpace E]
-  [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
   (g : RiemannianMetric I M)
 
 include g

@@ -4,6 +4,7 @@ import OpenGALib.Riemannian.Operators.SecondFundamentalForm
 import OpenGALib.Riemannian.Operators.Gradient
 import OpenGALib.Util.Notation
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # GMT.Variation.SecondVariation
@@ -52,13 +53,11 @@ are replaced with constructive defs.
 
 **Ground truth**: Simon 1983 §49; Schoen-Simon 1981 §1; Wic14 §2. -/
 noncomputable def secondVariationFull
-    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [CompleteSpace E]
-    [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H]
-    (I : ModelWithCorners ℝ E H) [I.Boundaryless]
+    (I : ModelWithCorners ℝ E H)
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [Riemannian.HasMetric I M]
+    [Riemannian.RiemannianSetup I M]
     (g : Riemannian.RiemannianMetric I M)
     (V : Varifold M) [hN : Varifold.HasNormal I V]
     (φ : M → ℝ) : ℝ :=

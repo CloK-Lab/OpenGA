@@ -1,5 +1,6 @@
 import OpenGALib.Riemannian.Connection.LeviCivita
 import Mathlib.Analysis.InnerProductSpace.PiL2
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Second fundamental form (codim-1)
@@ -33,12 +34,10 @@ open scoped ContDiff Manifold Bundle
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [CompleteSpace E]
-  [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-- **Math.** $A(X, Y)(x) = \langle \nabla^M_X Y(x),\, \nu(x)\rangle$. -/
 noncomputable def secondFundamentalFormScalar

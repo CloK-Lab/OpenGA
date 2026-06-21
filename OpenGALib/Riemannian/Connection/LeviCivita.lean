@@ -12,6 +12,7 @@ import OpenGALib.Riemannian.Connection.RieszExtraction
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivSmoothness
 import OpenGALib.Riemannian.Util.Metric.MetricInnerSmoothness
 import OpenGALib.Util.Attributes
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Levi-Civita connection
@@ -44,12 +45,10 @@ namespace Riemannian
 
 /-! ## from `Connection.lean` (private) -/
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-  [FiniteDimensional ℝ E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+  [RiemannianSetup I M]
 
 -- Bundle ↔ function-form / componentwise continuous linear map / mlieBracket smoothness
 -- helpers live in `Connection/TangentHelpers.lean` (Foundation module).
@@ -58,12 +57,10 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E
 
 /-! ## from `Connection.lean` (LeviCivita section) -/
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-! ## Riesz extraction stack (`Connection/RieszExtraction.lean`)
 
@@ -103,8 +100,6 @@ tensoriality from `Connection/CovDerivSmoothness.lean`:
    `koszul_smul_middle` via Riesz uniqueness.
 -/
 
-omit [InnerProductSpace ℝ E] [NeZero (Module.finrank ℝ E)] [I.Boundaryless]
-  [T2Space M] in
 /-- **Math.** **Levi-Civita `CovariantDerivative` existence.** Builds a
 `CovariantDerivative` whose `toFun` extends `koszulCovDeriv` for smooth
 $(X, Y)$. `IsCovariantDerivativeOn.add` follows from `koszul_add_middle`
@@ -457,10 +452,6 @@ If two sections agree on a nbhd of `x`, their Koszul functional values at `x`
 agree, and consequently their Levi-Civita derivatives at `x` agree (Riesz
 uniqueness). -/
 
-omit [CompleteSpace E] [FiniteDimensional ℝ E] in
-omit [CompleteSpace E] [FiniteDimensional ℝ E] [InnerProductSpace ℝ E]
-  [NeZero (Module.finrank ℝ E)] [I.Boundaryless] [T2Space M]
-  [IsLocallyConstantChartedSpace H M] in
 /-- **Math.** **Locality of `koszulFunctional` in the middle argument**:
 if $Y_1 =ᶠ[𝓝 x] Y_2$, then $K(X, Y_1; Z)(x) = K(X, Y_2; Z)(x)$. -/
 private theorem koszulFunctional_eventuallyEq_middle
@@ -516,13 +507,10 @@ private theorem covDeriv_congr_eventuallyEq_middle
 
 /-! ## from `Connection.lean` (Bianchi section) -/
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+  [RiemannianSetup I M]
 
 /-! ## Framework helpers
 

@@ -14,6 +14,7 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FreeModule.Finite.Basic
 import OpenGALib.Riemannian.TangentBundle.LocallyConstant
 import OpenGALib.Riemannian.Util.Chart.FlatChartDerivs
+import OpenGALib.Riemannian.TangentBundle.Util.SmoothManifoldSetup
 
 /-!
 # Tangent bundle smoothness API
@@ -302,12 +303,10 @@ to the manifold side via `comp_of_preimage_mem_nhdsWithin`.
 namespace Riemannian
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] [CompleteSpace E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M]
+  [SmoothManifoldSetup I M]
 
-omit [FiniteDimensional ℝ E] [CompleteSpace E] in
 /-- **Math.** Smoothness of $y \mapsto \mathrm{d}f_y(v)$ for chart-frame-constant $v$. -/
 theorem mfderiv_const_dir_smoothAt
     {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ, ℝ) ∞ f) (x : M) (v : E) :
@@ -384,7 +383,6 @@ theorem mfderiv_const_dir_smoothAt
   rw [h_written, h_extChart_eq]
   rfl
 
-omit [FiniteDimensional ℝ E] [CompleteSpace E] in
 /-- **Math.** Smoothness of $y \mapsto \mathrm{d}f_y(V(y))$ for smoothly-varying $V : M \to E$. -/
 theorem mfderiv_smoothDir_smoothAt
     {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ, ℝ) ∞ f) {x : M}

@@ -7,6 +7,7 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivBridges
 import OpenGALib.Riemannian.Util.Metric.MetricNotation
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Hessian on a Riemannian manifold
@@ -39,11 +40,10 @@ open scoped ContDiff Manifold Bundle Riemannian
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-! ## Vector-field Hessian -/
 
@@ -202,7 +202,8 @@ theorem trace_sq_div_dim_le_frobeniusSq
 
 /-! ## Bridge: scalar Hessian via iterated `mDirDeriv` -/
 
-variable [IsLocallyConstantChartedSpace H M]
+variable
+  [RiemannianSetup I M]
 
 /-- **Math.** **Scalar Hessian as iterated `mDirDeriv` minus Christoffel
 correction**. For a smooth scalar $g \colon M \to \mathbb{R}$ with
@@ -385,10 +386,9 @@ end Riemannian
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 end Riemannian

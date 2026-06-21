@@ -1,6 +1,7 @@
 import OpenGALib.Riemannian.Connection.LeviCivita
 import OpenGALib.Riemannian.TensorBundle.SmoothOrthoFrame
 import Mathlib.Analysis.InnerProductSpace.PiL2
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Connection Laplacian on tangent vector fields
@@ -40,12 +41,10 @@ open scoped ContDiff Manifold Bundle Riemannian
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
   (g : RiemannianMetric I M)
 
 /-- **Math.** The **second covariant derivative** of $Z$ at $x$ on

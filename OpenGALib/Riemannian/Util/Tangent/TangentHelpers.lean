@@ -1,6 +1,7 @@
 import Mathlib.Geometry.Manifold.MFDeriv.Basic
 import Mathlib.Geometry.Manifold.VectorField.LieBracket
 import OpenGALib.Riemannian.TangentBundle.TangentSmooth
+import OpenGALib.Riemannian.TangentBundle.Util.SmoothManifoldSetup
 
 /-!
 # Tangent helpers — chart-bundle smoothness bridges
@@ -21,13 +22,11 @@ open scoped ContDiff Manifold Topology
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-  [FiniteDimensional ℝ E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M]
+  [SmoothManifoldSetup I M]
 
-omit [CompleteSpace E] [FiniteDimensional ℝ E] in
 /-- **Eng.** A `SmoothVectorField`'s underlying `Y.toFun : Π y : M, T_yM`
 viewed as `M → E` (via `T_yM = E` def-eq) is globally `ContMDiff` under
 `IsLocallyConstantChartedSpace`. Bundle-section ↔ function-form bridge. -/
@@ -75,8 +74,8 @@ theorem SmoothVectorField.contMDiff_E (Y : SmoothVectorField I M) :
   rw [h_id]
   rfl
 
-omit [CompleteSpace E] [FiniteDimensional ℝ E] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M] in
+omit [IsManifold I ∞ M]
+ in
 /-- **Eng.** Componentwise lift to continuous linear map-valued: if each component
 `(fun y => T y (basis i)) : M → F₂` is `MDifferentiableAt` at `x`, then the
 continuous linear map-valued section `T : M → (F₁ →L[ℝ] F₂)` is `MDifferentiableAt` at `x`.
@@ -160,7 +159,6 @@ theorem SmoothVectorField.mlieBracket_jacobi
     (I := I) (M := M) (U := X.toFun) (V := Y.toFun) (W := Z.toFun)
     hX_2 hY_2 hZ_2
 
-omit [FiniteDimensional ℝ E] [IsLocallyConstantChartedSpace H M] in
 /-- **Eng.** `mlieBracket` of two `ContMDiff` bundle sections is `TangentSmoothAt`.
 Wrapper around Mathlib `ContMDiffAt.mlieBracket_vectorField` giving the
 framework's MDifferentiableAt-form predicate. -/

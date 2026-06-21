@@ -2,6 +2,7 @@ import Mathlib.Geometry.Manifold.Riemannian.Basic
 import OpenGALib.Comparison.Util.SpaceForm
 import OpenGALib.Riemannian.Curvature.RicciTensorBundle
 import OpenGALib.Riemannian.Volume.ChartPullback
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Bishop–Gromov volume comparison
@@ -15,13 +16,11 @@ Burago–Burago–Ivanov §6.5.
 open scoped Real Manifold InnerProductSpace ENNReal ContDiff Riemannian
 open Bundle MeasureTheory Riemannian Set OpenGA.Comparison.BishopGromov
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-  [ModelWithCorners.Boundaryless I]
   {M : Type*} [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M]
-  [HasMetric I M] [CompleteSpace M] [IsRiemannianManifold I M]
+  [RiemannianSetup I M]
+   [CompleteSpace M] [IsRiemannianManifold I M]
   [MeasurableSpace M] [BorelSpace M] [SigmaCompactSpace M]
 
 local notation:max "n_M" => Module.finrank ℝ E

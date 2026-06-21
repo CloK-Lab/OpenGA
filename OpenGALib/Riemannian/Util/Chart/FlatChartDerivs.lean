@@ -7,6 +7,7 @@ import Mathlib.LinearAlgebra.Basis.Defs
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FreeModule.Finite.Basic
 import OpenGALib.Riemannian.TangentBundle.LocallyConstant
+import OpenGALib.Riemannian.TangentBundle.Util.SmoothManifoldSetup
 
 /-!
 # Tangent bundle — chart-derivative engineering

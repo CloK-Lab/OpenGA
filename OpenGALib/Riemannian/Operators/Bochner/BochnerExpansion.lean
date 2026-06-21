@@ -10,6 +10,7 @@ import OpenGALib.Riemannian.TensorBundle.SmoothOrthoFrame.Smoothness
 import OpenGALib.Util.Notation
 import Mathlib.Analysis.InnerProductSpace.Trace
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivBridges
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Bochner expansion: Ricci-identity-driven chain
@@ -43,13 +44,11 @@ open scoped ContDiff Manifold Bundle Riemannian InnerProductSpace Topology
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
-  (g : RiemannianMetric I M) (hg : g = hm.metric)
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
+  (g : RiemannianMetric I M) (hg : g = HasMetric.metric)
 
 include g hg
 
@@ -311,9 +310,9 @@ theorem heart_curvature_orthonormal_sum_eq_ricci
     (W : SmoothVectorField I M) (x : M) :
     ∑ i, g.metricInner x
         (riemannCurvature g
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i)
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i)
           W.toFun (manifoldGradient (I := I) g f) x)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
       = ricciTensor g x (manifoldGradient (I := I) g f x) (W.toFun x) := by
   subst hg
   classical
@@ -325,8 +324,8 @@ theorem heart_curvature_orthonormal_sum_eq_ricci
   let gradF : SmoothVectorField I M :=
     { toFun := manifoldGradient (I := I) HasMetric.metric f, smooth := h_grad }
   let Bi : Fin (Module.finrank ℝ E) → SmoothVectorField I M := fun i =>
-    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i
-      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) hm.metric x i }
+    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i
+      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) HasMetric.metric x i }
   let WV : SmoothVectorField I M :=
     SmoothVectorField.const (I := I) (M := M) (W.toFun x : E)
   let GV : SmoothVectorField I M :=
@@ -405,8 +404,8 @@ trace identification with `scalarLaplacian`. -/
 theorem sum_hessianBilin_smoothOrthoFrame_eventuallyEq_laplacian
     (f : M → ℝ) (x : M) :
     (fun b => ∑ i, hessianBilin (I := I) g f b
-                    (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b)
-                    (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b))
+                    (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b)
+                    (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b))
       =ᶠ[𝓝 x] (Operators.scalarLaplacian (I := I) g f : M → ℝ) := by
   subst hg
   filter_upwards [Riemannian.Tensor.smoothOrthoFrameNbhd_mem_nhds (I := I) (M := M) x]
@@ -432,40 +431,40 @@ theorem smoothOrthoFrame_cov_skew
     (x : M) (i j : Fin (Module.finrank ℝ E)) (v : TangentSpace I x) :
     g.metricInner x
         ((leviCivitaConnection (I := I) (M := M) g).toFun
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x v)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) +
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x v)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) +
     g.metricInner x
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
         ((leviCivitaConnection (I := I) (M := M) g).toFun
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j) x v)
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j) x v)
       = 0 := by
   subst hg
   classical
   -- Section-level smoothness of the smooth orthonormal frame.
-  have hBi := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) hm.metric x i
-  have hBj := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) hm.metric x j
+  have hBi := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) HasMetric.metric x i
+  have hBj := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) HasMetric.metric x j
   have hBi_at : TangentSmoothAt
-      (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x :=
+      (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x :=
     (hBi x).mdifferentiableAt (by simp)
   have hBj_at : TangentSmoothAt
-      (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j) x :=
+      (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j) x :=
     (hBj x).mdifferentiableAt (by simp)
   -- Treat as constant section on the nbhd: `b ↦ g(B_i b, B_j b) =ᶠ if i = j then 1 else 0`.
   have h_constant_on_nbhd : ∀ᶠ b in 𝓝 x,
-      HasMetric.metric.metricInner b (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j b)
+      HasMetric.metric.metricInner b (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j b)
       = (if i = j then (1 : ℝ) else 0) := by
     filter_upwards [Riemannian.Tensor.smoothOrthoFrameNbhd_mem_nhds (I := I) (M := M) x]
       with b hb
-    exact Riemannian.Tensor.smoothOrthoFrame_orthonormal (I := I) hm.metric x hb i j
+    exact Riemannian.Tensor.smoothOrthoFrame_orthonormal (I := I) HasMetric.metric x hb i j
   -- mfderiv equality.
   have h_eq : (fun b : M => HasMetric.metric.metricInner b
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j b)) =ᶠ[𝓝 x]
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j b)) =ᶠ[𝓝 x]
       (fun _ : M => (if i = j then (1 : ℝ) else 0)) := h_constant_on_nbhd
   have h_mfderiv_eq : mfderiv I 𝓘(ℝ, ℝ) (fun b : M => HasMetric.metric.metricInner b
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j b)) x =
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j b)) x =
       mfderiv I 𝓘(ℝ, ℝ) (fun _ : M => (if i = j then (1 : ℝ) else 0)) x :=
     Filter.EventuallyEq.mfderiv_eq h_eq
   -- The const function has zero mfderiv.
@@ -476,13 +475,13 @@ theorem smoothOrthoFrame_cov_skew
     (SmoothVectorField.const (I := I) (M := M) (v : E)).smoothAt x
   have hmc := leviCivitaConnection_metric_compatible HasMetric.metric
     (fun _ : M => (v : TangentSpace I x))
-    (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i)
-    (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j) x hVsm hBi_at hBj_at
+    (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i)
+    (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j) x hVsm hBi_at hBj_at
   -- hmc : mfderiv (b ↦ g(B_i, B_j)) x ((const v) x) = g(LC B_i x (v), B_j x) + g(B_i x, LC B_j x (v))
   -- (const v) x = v, so this becomes the desired form, but with LHS = 0.
   have h_lhs_zero : (mfderiv I 𝓘(ℝ, ℝ) (fun b : M => HasMetric.metric.metricInner b
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i b)
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j b)) x) v = 0 := by
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i b)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j b)) x) v = 0 := by
     rw [h_mfderiv_eq, h_const_zero]; rfl
   rw [h_lhs_zero] at hmc
   exact hmc.symm
@@ -498,9 +497,9 @@ theorem sum_hessianBilin_smoothOrthoFrame_cov_eq_zero
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ, ℝ) ∞ f)
     (W : SmoothVectorField I M) (x : M) :
     ∑ i, hessianBilin (I := I) g f x
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
         ((leviCivitaConnection (I := I) (M := M) g).toFun
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x
           (W.toFun x)) = 0 := by
   subst hg
   classical
@@ -514,23 +513,23 @@ theorem sum_hessianBilin_smoothOrthoFrame_cov_eq_zero
   set a : Fin (Module.finrank ℝ E) → Fin (Module.finrank ℝ E) → ℝ :=
     fun i j => HasMetric.metric.metricInner x
       ((leviCivitaConnection (I := I) (M := M) HasMetric.metric).toFun
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x (W.toFun x))
-      (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) with ha_def
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x (W.toFun x))
+      (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) with ha_def
   set h_mat : Fin (Module.finrank ℝ E) → Fin (Module.finrank ℝ E) → ℝ :=
     fun i j => hessianBilin (I := I) HasMetric.metric f x
-      (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
-      (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) with hh_def
+      (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
+      (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) with hh_def
   -- Step 1: Orthonormal Riesz expansion of ∇_{W(x)} B_i.
   -- `v = ∑ k, ⟪b_k, v⟫_ℝ • b_k` for orthonormal basis `b_k` and `v ∈ T_xM`.
   have h_riesz : ∀ i,
       (leviCivitaConnection (I := I) (M := M) HasMetric.metric).toFun
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x (W.toFun x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x (W.toFun x)
         = ∑ j, a i j •
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) := by
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) := by
     intro i
     set v : TangentSpace I x :=
       (leviCivitaConnection (I := I) (M := M) HasMetric.metric).toFun
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x (W.toFun x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x (W.toFun x)
       with hv_def
     -- `OrthonormalBasis.sum_repr'` : `∑ j, ⟪b j, v⟫_ℝ • b j = v`.
     have h_sum : v = ∑ j, ⟪bAt j, v⟫_ℝ • bAt j := (bAt.sum_repr' v).symm
@@ -539,21 +538,21 @@ theorem sum_hessianBilin_smoothOrthoFrame_cov_eq_zero
     -- bAt j = smoothOrthoFrame ... j x by `smoothOrthoFrameOrthonormalBasis_apply`.
     rw [Riemannian.Tensor.smoothOrthoFrameOrthonormalBasis_apply]
     -- ⟪B_j x, v⟫_ℝ = HasMetric.metric.metricInner x (B_j x) v = a i j (by HasMetric.metric.metricInner_comm).
-    show ⟪Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x, v⟫_ℝ • _ = a i j • _
+    show ⟪Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x, v⟫_ℝ • _ = a i j • _
     show HasMetric.metric.metricInner x
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) v • _
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) v • _
         = a i j • _
     congr 1
     show HasMetric.metric.metricInner x
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x) v
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x) v
         = HasMetric.metric.metricInner x v
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j x)
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j x)
     exact HasMetric.metric.metricInner_comm x _ _
   -- Step 2: rewrite the sum with the Riesz expansion + bilinearity of hessianBilin.
   have h_expand : ∀ i, hessianBilin (I := I) HasMetric.metric f x
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
         ((leviCivitaConnection (I := I) (M := M) HasMetric.metric).toFun
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i) x
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i) x
           (W.toFun x))
       = ∑ j, a i j * h_mat i j := by
     intro i
@@ -577,9 +576,9 @@ theorem sum_hessianBilin_smoothOrthoFrame_cov_eq_zero
     -- And g(B_i x, ∇_{W x} B_j) = g(∇_{W x} B_j, B_i x) = a j i by HasMetric.metric.metricInner_comm.
     have h := smoothOrthoFrame_cov_skew HasMetric.metric rfl x i j (W.toFun x)
     have h_swap : HasMetric.metric.metricInner x
-        (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
+        (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
         ((leviCivitaConnection (I := I) (M := M) HasMetric.metric).toFun
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x j) x (W.toFun x))
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x j) x (W.toFun x))
         = a j i := by
       show HasMetric.metric.metricInner x _ _ = HasMetric.metric.metricInner x _ _
       exact HasMetric.metric.metricInner_comm x _ _
@@ -629,15 +628,15 @@ theorem sum_inner_secondCovDerivAt_grad_smoothOrthoFrame_of_inner_form
       g.metricInner x
           (∑ i, secondCovDerivAt (I := I) (M := M) g
             (manifoldGradient (I := I) g f) x
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
           w
         = g.metricInner x (manifoldGradient (I := I) g (Operators.scalarLaplacian (I := I) g f) x) w
           + ricciTensor g x (manifoldGradient (I := I) g f x) w) :
     ∑ i, g.metricInner x
         (secondCovDerivAt (I := I) (M := M) g (manifoldGradient (I := I) g f) x
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
-          (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
+          (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
         (manifoldGradient (I := I) g f x)
       = g.metricInner x (manifoldGradient (I := I) g f x)
             (manifoldGradient (I := I) g (Operators.scalarLaplacian (I := I) g f) x)
@@ -652,14 +651,14 @@ theorem sum_inner_secondCovDerivAt_grad_smoothOrthoFrame_of_inner_form
   calc ∑ i, HasMetric.metric.metricInner x
           (secondCovDerivAt (I := I) (M := M) HasMetric.metric
             (manifoldGradient (I := I) HasMetric.metric f) x
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
           (manifoldGradient (I := I) HasMetric.metric f x)
       = HasMetric.metric.metricInner x
           (∑ i, secondCovDerivAt (I := I) (M := M) HasMetric.metric
             (manifoldGradient (I := I) HasMetric.metric f) x
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x)
-            (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x)
+            (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
           (manifoldGradient (I := I) HasMetric.metric f x) :=
         (sum_inner Finset.univ _ (manifoldGradient (I := I) HasMetric.metric f x)).symm
     _ = HasMetric.metric.metricInner x (manifoldGradient (I := I) HasMetric.metric (Operators.scalarLaplacian (I := I) HasMetric.metric f) x)

@@ -13,6 +13,7 @@ import OpenGALib.Riemannian.Operators.Bochner.PerSummand
 import OpenGALib.Util.MFDeriv
 import OpenGALib.Util.Notation
 import Mathlib.Analysis.InnerProductSpace.Trace
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Bochner–Weitzenböck identity
@@ -36,12 +37,10 @@ open scoped ContDiff Manifold Bundle Riemannian InnerProductSpace Topology
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-! ## Leibniz trace reduction (the LHS step) -/
 
@@ -55,7 +54,7 @@ Combines `hessian_gradientNormSq_apply_chartFrame` summed over
 `OrthonormalBasis.sum_sq_inner_left` for Frobenius². -/
 theorem bochner_leibniz_trace_reduction
     [IsManifold I 2 M]
-    (g : RiemannianMetric I M) (hg : g = hm.metric)
+    (g : RiemannianMetric I M) (hg : g = HasMetric.metric)
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ, ℝ) ∞ f) (x : M) :
     (1 / 2 : ℝ) * Operators.scalarLaplacian g
         (fun y => g.metricInner y (manifoldGradient (I := I) g f y)
@@ -73,8 +72,8 @@ theorem bochner_leibniz_trace_reduction
         + frobeniusSq (I := I) (M := M) (hessianBilin (I := I) HasMetric.metric f) x
   -- Wrap `smoothOrthoFrame · x i` as `SmoothVectorField` for `hessian_gradientNormSq_apply_section`.
   let Bi : Fin (Module.finrank ℝ E) → SmoothVectorField I M := fun i =>
-    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i
-      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) hm.metric x i }
+    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i
+      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) HasMetric.metric x i }
   -- Step 1: convert `scalarLaplacian` from std-basis trace to smoothOrthoFrame trace
   -- via Stage 7 basis-invariance of trace (`sum_diagonal_smoothOrthoFrame_eq_std`).
   have h_scalarLap_eq :
@@ -192,9 +191,9 @@ theorem bochner_leibniz_trace_reduction
     -- as `⟪covDerivAt HasMetric.metric ∇f x (Bi · x x), covDerivAt HasMetric.metric ∇f x (Bi · x x)⟫_ℝ` (def-eq), match h_stage7's LHS.
     show ∑ i, @inner ℝ (TangentSpace I x) _
               (covDerivAt HasMetric.metric (manifoldGradient (I := I) HasMetric.metric f) x
-                (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+                (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
               (covDerivAt HasMetric.metric (manifoldGradient (I := I) HasMetric.metric f) x
-                (Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i x))
+                (Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i x))
         = frobeniusSq (I := I) (M := M) (hessianBilin (I := I) HasMetric.metric f) x
     rw [h_stage7]
     -- Now goal: ∑_i ⟪covDerivAt HasMetric.metric ∇f x εᵢ, covDerivAt HasMetric.metric ∇f x εᵢ⟫_ℝ = frobeniusSq.
@@ -229,7 +228,7 @@ Composes `bochner_leibniz_trace_reduction` (LHS step) with
 Reference: Petersen Ch. 7 §1 Prop 33; do Carmo §6; Schoen-Simon 1981 §1. -/
 theorem bochner_weitzenboeck
     [IsManifold I 2 M]
-    (g : RiemannianMetric I M) (hg : g = hm.metric)
+    (g : RiemannianMetric I M) (hg : g = HasMetric.metric)
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ, ℝ) ∞ f) (x : M) :
     (1 / 2 : ℝ) * Operators.scalarLaplacian g
         (fun y => g.metricInner y (manifoldGradient (I := I) g f y)

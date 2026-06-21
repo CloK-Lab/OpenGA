@@ -1,4 +1,5 @@
 import OpenGALib.Riemannian.Connection.LeviCivita
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # `covDeriv` / `covDerivAt` simp bridges
@@ -18,12 +19,10 @@ namespace Riemannian
 
 section CovDerivBridges
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-- **Eng.** Bridge: `(leviCivitaConnection.toFun Y x) (X x) = (∇[X] Y) x` by
 definition. Rewrites raw structural form into the `∇` notation form. -/

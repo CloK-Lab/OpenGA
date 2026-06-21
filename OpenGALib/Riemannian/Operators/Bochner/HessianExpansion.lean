@@ -10,6 +10,7 @@ import OpenGALib.Riemannian.Util.Metric.MetricInnerSmoothness
 import OpenGALib.Util.Notation
 import Mathlib.Analysis.InnerProductSpace.Trace
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivBridges
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Bochner anchor — Hessian expansion of `|∇f|²`
@@ -35,12 +36,10 @@ open scoped ContDiff Manifold Bundle Riemannian InnerProductSpace Topology
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
   (g : RiemannianMetric I M)
 
 /-! ## Helpers for the Leibniz trace reduction (E) -/

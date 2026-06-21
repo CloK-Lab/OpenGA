@@ -3,6 +3,7 @@ import OpenGALib.GeometricMeasureTheory.SecondVariation
 import OpenGALib.GeometricMeasureTheory.Variation.SecondVariation
 import OpenGALib.GeometricMeasureTheory.HasNormal
 import Mathlib.Geometry.Manifold.IsManifold.Basic
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # GMT.Stable
@@ -49,13 +50,11 @@ Carries the smooth-manifold typeclass cascade
 because `sing I V` requires it and `secondVariationFull` requires the
 HasNormal-Bridge cascade. -/
 def IsStable
-    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H]
-    (I : ModelWithCorners ℝ E H) [I.Boundaryless]
+    (I : ModelWithCorners ℝ E H)
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [Riemannian.HasMetric I M]
+    [Riemannian.RiemannianSetup I M]
     (V : Varifold M) [Varifold.HasNormal I V] : Prop :=
   ∀ φ : M → ℝ, Function.support φ ⊆ (sing I V)ᶜ →
     0 ≤ Variation.secondVariationFull I Riemannian.HasMetric.metric V φ
@@ -63,13 +62,11 @@ def IsStable
 /-- **Math.** $V$ is **unstable**: there exists a test direction with negative
 second variation. -/
 def IsUnstable
-    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H]
-    (I : ModelWithCorners ℝ E H) [I.Boundaryless]
+    (I : ModelWithCorners ℝ E H)
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [Riemannian.HasMetric I M]
+    [Riemannian.RiemannianSetup I M]
     (V : Varifold M) [Varifold.HasNormal I V] : Prop :=
   ∃ φ : M → ℝ,
     Function.support φ ⊆ (sing I V)ᶜ ∧

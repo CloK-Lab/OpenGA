@@ -7,6 +7,7 @@ import Mathlib.Geometry.Manifold.MFDeriv.Basic
 import Mathlib.Geometry.Manifold.VectorField.Pullback
 import Mathlib.LinearAlgebra.Trace
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # GMT.Stationary
@@ -142,13 +143,11 @@ type parameters are restricted to `Type` (universe 0) to avoid the
 universe-inference issue when `IsStationary V` is used as a structure
 field; this matches the standard $\mathbb{R}$-finite-dim convention. -/
 def IsStationary (V : Varifold M) : Prop :=
-  ∀ {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-    [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)] [CompleteSpace E]
+  ∀ {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type} [TopologicalSpace H]
-    {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {I : ModelWithCorners ℝ E H}
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [Riemannian.HasMetric I M]
+    [Riemannian.RiemannianSetup I M]
     [Varifold.HasNormal I V]
     (X : TestVectorField I M),
     Variation.firstVariationFull I Riemannian.HasMetric.metric V X = 0

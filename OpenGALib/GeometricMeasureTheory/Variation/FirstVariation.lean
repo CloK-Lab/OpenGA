@@ -2,6 +2,7 @@ import OpenGALib.GeometricMeasureTheory.Variation.Divergence
 import OpenGALib.GeometricMeasureTheory.HasNormal
 import OpenGALib.Riemannian.Connection.LeviCivita
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # GMT.Variation.FirstVariation
@@ -51,13 +52,11 @@ $\langle\cdot, \cdot\rangle_g$ is the framework-owned `metricInner`.
 **Ground truth**: Pitts 1981 §38; Simon 1983 §38 (codim-1 first
 variation). -/
 noncomputable def normalCorrection
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-    [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H]
-    (I : ModelWithCorners ℝ E H) [I.Boundaryless]
+    (I : ModelWithCorners ℝ E H)
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [HasMetric I M]
+    [RiemannianSetup I M]
     (g : RiemannianMetric I M)
     (X : TestVectorField I M)
     (ν : (x : M) → TangentSpace I x) (x : M) : ℝ :=
@@ -77,13 +76,11 @@ of $\delta V(X) = \int \mathrm{div}_S X\, dV(x, S)$.
 
 For paper §6 codim-1 use, this is the paper-faithful first variation. -/
 noncomputable def firstVariationFull
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-    [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H]
-    (I : ModelWithCorners ℝ E H) [I.Boundaryless]
+    (I : ModelWithCorners ℝ E H)
     [ChartedSpace H M] [IsManifold I ∞ M]
-    [IsLocallyConstantChartedSpace H M]
-    [HasMetric I M]
+    [RiemannianSetup I M]
     (g : RiemannianMetric I M)
     (V : Varifold M) [hN : Varifold.HasNormal I V]
     (X : TestVectorField I M) : ℝ :=

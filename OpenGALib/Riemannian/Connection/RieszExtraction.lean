@@ -1,4 +1,5 @@
 import OpenGALib.Riemannian.Connection.Koszul
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Riesz extraction of the Levi-Civita pointwise value
@@ -23,14 +24,11 @@ open scoped ContDiff Manifold Topology Riemannian
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
-omit [CompleteSpace E] [InnerProductSpace ℝ E] [NeZero (Module.finrank ℝ E)]
-  [I.Boundaryless] [T2Space M] in
 /-- **Math.** **Riesz extraction existence**: under smoothness of $X, Y$
 at $x$, the half-Koszul functional $Z \mapsto \tfrac12 K(X, Y; Z)(x)$
 admits a unique tangent-space representative for smooth $Z$.
@@ -51,8 +49,6 @@ theorem koszulLinearFunctional_exists
           fun Z hZ => ?_⟩
   exact TensorialAt.mkHom_apply (koszulFunctional_tensorialAt g X Y x hX hY) hZ
 
-omit [CompleteSpace E] [InnerProductSpace ℝ E] [NeZero (Module.finrank ℝ E)]
-  [I.Boundaryless] [T2Space M] in
 /-- **Math.** Riesz-extracted tangent vector `v ∈ T_xM` satisfying
 $\langle v, Z(x)\rangle = \tfrac12 K(X, Y; Z)(x)$ for all smooth $Z$.
 The Levi-Civita value $\nabla_X Y(x)$. -/
@@ -81,8 +77,6 @@ noncomputable def koszulCovDeriv
     (hX : TangentSmoothAt X x) (hY : TangentSmoothAt Y x) : TangentSpace I x :=
   Classical.choose (koszulCovDeriv_exists g X Y x hX hY)
 
-omit [CompleteSpace E] [InnerProductSpace ℝ E] [NeZero (Module.finrank ℝ E)]
-  [I.Boundaryless] [T2Space M] in
 /-- **Math.** **Riesz defining property**:
 $\langle \nabla_X Y(x), Z(x)\rangle = \tfrac12 K(X, Y; Z)(x)$ for smooth
 $X, Y, Z$, with `g.metricInner` as the framework-owned inner product. -/

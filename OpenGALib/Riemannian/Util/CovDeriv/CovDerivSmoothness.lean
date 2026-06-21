@@ -8,6 +8,7 @@ import OpenGALib.Riemannian.Util.Tangent.MfderivApplySection
 import OpenGALib.Riemannian.Connection.Koszul
 import OpenGALib.Riemannian.Connection.RieszExtraction
 import OpenGALib.Riemannian.Util.Tangent.TangentHelpers
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Tensoriality + smoothness machinery for `koszulCovDeriv`
@@ -37,11 +38,10 @@ open scoped ContDiff Manifold Topology Riemannian
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-! ### Smoothness-erased aux + tensoriality in `X` -/
 
@@ -57,8 +57,6 @@ noncomputable def koszulCovDerivAux
   classical
   exact if hX : TangentSmoothAt X x then koszulCovDeriv g X Y x hX hY else 0
 
-omit [InnerProductSpace ℝ E] [NeZero (Module.finrank ℝ E)] [I.Boundaryless]
-  [T2Space M] in
 /-- **Mixed.** Tensoriality of `koszulCovDerivAux g Y x hY` in the `X`
 argument. Math: $\nabla_\cdot Y$ is $C^\infty(M)$-linear in $X$ (`koszul_smul_left`,
 `koszul_add_left`). Eng: lifted from `koszulFunctional` to `koszulCovDeriv`

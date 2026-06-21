@@ -5,6 +5,7 @@ import OpenGALib.Riemannian.Util.Simp.OperatorSimp
 import OpenGALib.Util.MFDeriv
 import OpenGALib.Riemannian.Util.Metric.MetricInnerSmoothness
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivBridges
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Per-summand chain of the heart-of-Bochner identity
@@ -35,13 +36,11 @@ open scoped ContDiff Manifold Bundle Riemannian InnerProductSpace Topology
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
-  (g : RiemannianMetric I M) (hg : g = hm.metric)
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
+  (g : RiemannianMetric I M) (hg : g = HasMetric.metric)
 
 include g hg
 
@@ -481,8 +480,8 @@ theorem bochner_connectionLaplacian_grad_decomposition
   let gradF : SmoothVectorField I M :=
     { toFun := manifoldGradient (I := I) HasMetric.metric f, smooth := h_grad }
   let Bi : Fin (Module.finrank ℝ E) → SmoothVectorField I M := fun i =>
-    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) hm.metric x i
-      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) hm.metric x i }
+    { toFun := Riemannian.Tensor.smoothOrthoFrame (I := I) HasMetric.metric x i
+      smooth := Riemannian.Tensor.smoothOrthoFrame_smooth (I := I) HasMetric.metric x i }
   -- Per-summand quantities.
   set Rterm : Fin (Module.finrank ℝ E) → ℝ := fun i =>
     HasMetric.metric.metricInner x

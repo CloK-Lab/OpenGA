@@ -1,6 +1,7 @@
 import OpenGALib.Riemannian.Connection.Koszul
 import OpenGALib.Riemannian.Util.Tangent.TangentHelpers
 import OpenGALib.Riemannian.Util.Metric.MetricInnerSmoothness
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 /-!
 # Half-Koszul cotangent functional
 
@@ -27,12 +28,10 @@ open scoped ContDiff Manifold Topology
 
 namespace Riemannian
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-  [FiniteDimensional ℝ E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+  [RiemannianSetup I M]
 
 /-- **Mixed.** Half-Koszul scalar value $\tfrac12\,K(v_{\text{const}}, Y, w_{\text{const}})(y)$
 on constant lifts of `v, w : E`. Math: the Koszul half-factor that
@@ -131,7 +130,6 @@ lemma koszulCotangentFunctional_apply
     (v : E) (Y : SmoothVectorField I M) (y : M) (w : E) :
     koszulCotangentFunctional g v Y y w = koszulCotangentScalar g v Y w y := rfl
 
-omit [FiniteDimensional ℝ E] in
 /-- **Eng.** Scalar smoothness of `koszulCotangentScalar g v Y w` in `y`,
 decomposed across the 6 Koszul terms (3 directional-derivative + 3
 mlieBracket-with-metric-inner). Used to lift `koszulCotangentFunctional` to a

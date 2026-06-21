@@ -1,5 +1,6 @@
 import OpenGALib.Riemannian.Connection.LeviCivita
 import OpenGALib.Riemannian.TensorBundle.SmoothOrthoFrame
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Divergence of a vector field
@@ -32,12 +33,10 @@ open scoped ContDiff Manifold Bundle Riemannian InnerProductSpace
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [IsLocallyConstantChartedSpace H M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-- **Math.** **Divergence** of a tangent vector field $X$ at $x$:
 $$\operatorname{div}_g X (x) \;=\; \sum_i g_x\bigl(\nabla_{B_i} X(x),\,

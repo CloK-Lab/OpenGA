@@ -1,6 +1,7 @@
 import OpenGALib.Riemannian.Metric.RiemannianMetric
 import OpenGALib.Util.Attributes
 import OpenGALib.Riemannian.TangentBundle.LocallyConstant
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Smooth and Riemannian manifolds — bundled typeclass

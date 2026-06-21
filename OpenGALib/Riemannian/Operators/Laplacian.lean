@@ -1,6 +1,7 @@
 import OpenGALib.Riemannian.Operators.Hessian
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import OpenGALib.Riemannian.Util.CovDeriv.CovDerivBridges
+import OpenGALib.Riemannian.Metric.Util.RiemannianSetup
 
 /-!
 # Laplace–Beltrami operator
@@ -39,11 +40,10 @@ open scoped ContDiff Manifold Bundle Riemannian
 namespace Riemannian
 namespace Operators
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [InnerProductSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [NeZero (Module.finrank ℝ E)]
-  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [hm : HasMetric I M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianSetup I M]
 
 /-- **Math.** The **Laplace–Beltrami operator** $\Delta_g$ acting on a
 pointwise Hessian bilinear form $B$:
@@ -91,7 +91,8 @@ theorem laplacian_sq_le_dim_mul_frobeniusSq
 The **scalar Laplacian** $\Delta_g f$ of a smooth function $f : M \to \mathbb{R}$,
 as the trace of the Hessian. Used in the Bochner identity. -/
 
-variable [IsLocallyConstantChartedSpace H M]
+variable
+  [RiemannianSetup I M]
 /-- **Math.** The **scalar Laplacian** $\Delta_g f(x)$ of a smooth function
 $f : M \to \mathbb{R}$ at $x$, the geometric trace of the Hessian:
 $\Delta_g f(x) = \sum_i \operatorname{Hess} f(x)(\varepsilon_i, \varepsilon_i)$
