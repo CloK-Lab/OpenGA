@@ -32,6 +32,8 @@ def main():
         return
 
     client = Client(json.loads((ROOT / ".credentials.json").read_text())["api_key"])
+    if client.version != "0.9.8":
+        raise RuntimeError("Platform version changed; refresh the Prove2Me skill before updating")
 
     def read_mission():
         return next(m for m in client.pages("/missions", "missions") if m["id"] == MISSION_ID)

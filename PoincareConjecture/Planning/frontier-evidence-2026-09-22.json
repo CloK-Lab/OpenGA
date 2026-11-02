@@ -1,0 +1,246 @@
+{
+  "checked_at_utc": "2026-09-22T19:04:33.065241+00:00",
+  "api_version": "0.10.8",
+  "local_commit": "95c6069fad3dc458d8fd89b2286819881dc23cd2",
+  "local_sync_date": "2026-09-10T21:52:24.245070+00:00",
+  "root_id": "7ea2da12-4d1b-4bbc-8257-df87d92f5a8e",
+  "root_status": "Open",
+  "milestones": [
+    {
+      "id": "01af4eaa-14be-4540-8708-3da1ea55850b",
+      "title": "All-time Ricci flow with surgery",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "245ff479-b4c3-46c9-aee5-43f931990aa1",
+      "title": "Topological effect of surgery",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "33045187-e820-4325-a253-c8ba2c778897",
+      "title": "Finite-time extinction",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "29f0d323-76f4-4288-b819-626a482e9d5f",
+      "title": "Topology from extinction",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "2d6c9060-c962-45a7-81c9-ba7f22f44012",
+      "title": "Scalar lower bound across upward jumps",
+      "completed": true,
+      "theorem": {
+        "id": "688450a0-1949-4aa1-aeec-4ff61ccf5ddd",
+        "theorem_name": "OpenGA.scalar_lower_bound_across_upward_jumps",
+        "status": "Proved"
+      }
+    },
+    {
+      "id": "59cdc370-8720-41f9-8b38-a4a11e9a9718",
+      "title": "Area-energy comparison for finite-energy vector fields",
+      "completed": true,
+      "theorem": {
+        "id": "d81e3640-8579-4396-babb-69edac82be33",
+        "theorem_name": "OpenGA.integral_areaDensity_le_energyDensity",
+        "status": "Proved"
+      }
+    },
+    {
+      "id": "dd7060c8-1d02-4851-bad3-66eeef3a13b9",
+      "title": "Equality in the integrated area-energy comparison",
+      "completed": true,
+      "theorem": {
+        "id": "126d8aa9-2df0-4852-b3cd-4e4b6ffdd0c7",
+        "theorem_name": "OpenGA.integral_areaDensity_eq_energyDensity_iff",
+        "status": "Proved"
+      }
+    },
+    {
+      "id": "cb96ab98-d517-4ecc-964b-b4b39a2d07a3",
+      "title": "Bishop-Gromov volume comparison",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "149701dc-6dbc-4301-8b60-688c2fccc086",
+      "title": "Local curvature derivative estimates",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "c18c8e39-32d3-41f4-917e-449be9fefce3",
+      "title": "Hamilton-Ivey pinching",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "92e1c50a-cec4-485b-8f38-28a2d24f11ea",
+      "title": "Compactness of Ricci flows",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "944c0806-badc-43ae-bc07-982d49c86619",
+      "title": "Reduced volume monotonicity",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "ed9cc5e0-19e6-4d15-bc2a-ff6701974891",
+      "title": "No local collapsing",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "e77732ea-15a0-4bcf-a341-ab5be97949b3",
+      "title": "Compactness of three-dimensional kappa-solutions",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "70d4aeb2-fb41-417e-918c-1d2649faafe7",
+      "title": "Canonical neighborhood theorem",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "10e68fd6-579c-48dc-9506-3c0bb279f8f4",
+      "title": "Noncollapsing across surgery",
+      "completed": false,
+      "theorem": null
+    },
+    {
+      "id": "89631254-a7b9-4d11-b01d-777444bbcd1e",
+      "title": "Area-energy control of parametrized varifolds",
+      "completed": true,
+      "theorem": {
+        "id": "947563ea-c13b-4ec6-b08d-7b11e70914be",
+        "theorem_name": "OpenGA.Varifold.mass_ofParametrization_le_energy",
+        "status": "Proved"
+      }
+    }
+  ],
+  "open_leaves": [
+    {
+      "theorem_id": "0ecb5d1e-78dc-49f7-986e-4faa74dae462",
+      "theorem_name": "PoincareFormalization.homotopyEquiv_sphere_three",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "4de517bb-1125-48cf-b44f-de4ca093a0a5",
+      "theorem_name": "PoincareFormalization.spherical_cover_of_finite_fundamental_group",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "6445ec61-f49c-47ce-b681-7ab9ea9a4059",
+      "theorem_name": "PoincareFormalization.exists_smooth_structure_three",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "79da6e34-6c16-4bcf-bac0-c071f41d246d",
+      "theorem_name": "PoincareFormalization.homotopy_three_sphere_nonempty_homeomorph",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "c5c9092c-00f4-4939-893e-ea9cc075b564",
+      "theorem_name": "PoincareFormalization.nonempty_sdiffeomorph_sphere_three",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "82499fe3-a4f5-4f42-96da-34e3e6fe56ba",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.nonempty_homeomorph_sphere_of_connected_sum_spheres",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "cbde63f3-ca2b-4aef-b124-5827b74f7e4c",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.simply_connected_factors_of_connected_sum",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "4e7712f8-c457-4100-9d0e-91210ea81c7a",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.exists_uniform_area_bound_of_evolution",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "a2658168-3d62-4579-8ef5-5f13d51d2311",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.nonempty_surgeryTopologyEvolution",
+      "status": "Open",
+      "closability": 0
+    },
+    {
+      "theorem_id": "fc6d603d-ee71-4320-8e35-b9967dd105ae",
+      "theorem_name": "PoincareFormalization.measured_surgery_data_of_not_homeomorph_sphere",
+      "status": "Open",
+      "closability": 0
+    }
+  ],
+  "audited_targets": [
+    {
+      "theorem_id": "eafa0066-fef6-45ad-87b1-02fc3898b4f8",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.not_simply_connected_sphere_handle",
+      "status": "Proved",
+      "formal_statement": "\n/-!\n# Open geometric and topological inputs to the extinction endgame\n\nThese are open problems, with explicit `sorry` bodies. They are kept in the\nmission workspace, outside the reusable OpenGALib import tree. Successfully\nelaborating this file does not prove any of the four problems.\n\nThe geometry problem asks for data extracted from the intended Kleiner-Lott\nand Colding-Minicozzi construction. `SurgeryTopologyEvolution` is explicitly\nan abstraction of its topological output, not the full metric surgery flow.\nIn particular, this file does not claim to formalize the Ricci equation,\ncutoff conditions, or the analytic min-max construction.\n-/\n\nnamespace PoincareFormalization.ExtinctionEndgame\n\nopen OpenGA\n\nuniverse u\n\n\n\n\n\n\ntheorem not_simply_connected_sphere_handle (M : ClosedThreeManifold.{u})\n    (hhandle : M.IsSphereHandle) : ¬SimplyConnectedSpace M := by sorry\n\n\n\nend PoincareFormalization.ExtinctionEndgame\n",
+      "preamble": "import Definitions.Def_OpenGA_SurgeryTopologyEvolution\n",
+      "created_at": "2026-09-09T21:06:25.491149+00:00",
+      "mathlib_rev": "0df444a360eaa60ab8c11dca51a86af692955474"
+    },
+    {
+      "theorem_id": "4e7712f8-c457-4100-9d0e-91210ea81c7a",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.exists_uniform_area_bound_of_evolution",
+      "status": "Open",
+      "formal_statement": "theorem PoincareFormalization.ExtinctionEndgame.exists_uniform_area_bound_of_evolution\n    (M : ClosedThreeManifold.{u}) [SimplyConnectedSpace M]\n    (E : SurgeryTopologyEvolution M) :\n    ∃ W : ℝ, 0 ≤ W ∧\n      ∀ T : ℝ, 0 < T → E.components T ≠ [] →\n        Nonempty (SurgeryAreaEvolutionData W T) := by sorry",
+      "preamble": "import Definitions.Def_OpenGA_SurgeryAreaEvolutionData\nimport Definitions.Def_OpenGA_ExtinctionWidthControl\nset_option autoImplicit false\nopen Set Filter\nopen scoped Topology\nopen OpenGA\nuniverse u",
+      "created_at": "2026-09-21T03:21:23.465885+00:00",
+      "mathlib_rev": "0df444a360eaa60ab8c11dca51a86af692955474"
+    },
+    {
+      "theorem_id": "a2658168-3d62-4579-8ef5-5f13d51d2311",
+      "theorem_name": "PoincareFormalization.ExtinctionEndgame.nonempty_surgeryTopologyEvolution",
+      "status": "Open",
+      "formal_statement": "theorem PoincareFormalization.ExtinctionEndgame.nonempty_surgeryTopologyEvolution\n    (M : ClosedThreeManifold.{u}) [SimplyConnectedSpace M] :\n    Nonempty (SurgeryTopologyEvolution M) := by sorry",
+      "preamble": "import Definitions.Def_OpenGA_SurgeryAreaEvolutionData\nimport Definitions.Def_OpenGA_ExtinctionWidthControl\nset_option autoImplicit false\nopen Set Filter\nopen scoped Topology\nopen OpenGA\nuniverse u",
+      "created_at": "2026-09-21T03:21:30.831917+00:00",
+      "mathlib_rev": "0df444a360eaa60ab8c11dca51a86af692955474"
+    }
+  ],
+  "definitions": [
+    {
+      "id": "4593f200-a9c0-4715-9c46-b8c80a268057",
+      "name": "OpenGA_SurgeryTopologyEvolution",
+      "local_path": "PoincareConjecture/Definitions/Def_OpenGA_SurgeryTopologyEvolution.lean",
+      "live_equals_local_after_strip": true,
+      "live_sha256": "b6ec59174acb352cb61ba878aa52f93a65471db0a7453d585bb5cf68be1d5d25"
+    },
+    {
+      "id": "74823526-a4ee-4cf1-844c-2fa50e923d38",
+      "name": "OpenGA_SurgeryAreaEvolutionData",
+      "local_path": "PoincareConjecture/Definitions/Def_OpenGA_SurgeryAreaEvolutionData.lean",
+      "live_equals_local_after_strip": true,
+      "live_sha256": "7cd6e5b4e62e426cf4465139c4662d86f066c227cb9ddd9c05c08d39f571a965"
+    }
+  ],
+  "handle_proofs": [
+    {
+      "id": "ca2cc8df-2bcf-489e-9219-f4943e83caa1",
+      "theorem_id": "eafa0066-fef6-45ad-87b1-02fc3898b4f8",
+      "username": "cm_beta",
+      "status": "ACCEPTED",
+      "created_at": "2026-09-20T01:15:34.940401+00:00",
+      "source_sha256": "2e3d7a88d18aa13d13474fa7abb8068df7b391e9383a2ea0781f5a8127dbafcb",
+      "local_kernel_check": "not performed; integration task pending"
+    }
+  ]
+}

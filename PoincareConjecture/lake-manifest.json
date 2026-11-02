@@ -4,6 +4,15 @@
   "name": "PoincareConjecture",
   "packages": [
     {
+      "configFile": "lakefile.lean",
+      "dir": "..",
+      "inherited": false,
+      "manifestFile": "lake-manifest.json",
+      "name": "OpenGALib",
+      "scope": "",
+      "type": "path"
+    },
+    {
       "configFile": "lakefile.toml",
       "inherited": false,
       "inputRev": "1b535dd102b94cc42b107cca27059687888f08b3",
